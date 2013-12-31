@@ -1,14 +1,14 @@
 import sys
-import os
-import pdb
 import xlrd
 import data_handling
-
-def main():
-    book = xlrd.open_workbook('../sample_narratives.xlsx')
+from narratives import narrative
+def print_narratives(file_path):
+    book = xlrd.open_workbook(file_path)
     sheet = book.sheet_by_index(0)
-#     print data_handling.category_columns(sheet)
-#     print data_handling.create_student(sheet.row(1), categories)
+    data = data_handling.student_data(sheet)
     
-if __name__ == '__main__':
-    main()
+    with open('narratives.txt','w') as output_file:
+        for student in data:
+            output_file.write('{}: '.format(student['name']))
+            output_file.write(narrative(student))
+    
