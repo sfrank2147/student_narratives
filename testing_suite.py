@@ -1,6 +1,7 @@
 import unittest
 import data_handling
 import xlrd
+import narratives
 
 class TestNarratives(unittest.TestCase):
     def setUp(self):
@@ -22,3 +23,17 @@ class TestNarratives(unittest.TestCase):
         data = data_handling.student_data(self.sheet)
         self.assertEqual(data[0]['name'], 'John')
         self.assertEqual(data[1]['does homework?'],'no')
+    
+    def test_yes_value(self):
+        self.assertEqual(narratives.yes_value('Yes'),True)
+        self.assertEqual(narratives.yes_value('y'),True)
+        self.assertEqual(narratives.yes_value('No'),False)
+        self.assertEqual(narratives.yes_value('n'),False)
+        self.assertEqual(narratives.yes_value('hi'),None)
+    
+    def test_gender(self):
+        words = ['boy','Male','Girl','female']
+        test_responses = [narratives.gender(word) for word in words]
+        male_result = {'subject':'he','object':'him', 'possessive':'his'}
+        female_result = {'subject':'she','object':'her', 'possessive':'her'}
+        self.assertEqual(test_responses, [male_result,male_result,female_result,female_result])
