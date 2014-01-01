@@ -2,6 +2,8 @@ import sys
 import xlrd
 import data_handling
 from narratives import narrative
+import argparse
+
 def print_narratives(file_path):
     book = xlrd.open_workbook(file_path)
     sheet = book.sheet_by_index(0)
@@ -11,4 +13,14 @@ def print_narratives(file_path):
         for student in data:
             output_file.write('{}: '.format(student['name']))
             output_file.write(narrative(student))
+            output_file.write('\n')
     
+def main():
+    parser = argparse.ArgumentParser(description='Create narratives')
+    parser.add_argument('path')
+    args = parser.parse_args()
+    
+    print_narratives(args.path)
+
+if __name__ == '__main__':
+    main()
